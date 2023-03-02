@@ -1,0 +1,94 @@
+launchctl unload -F /System/Library/LaunchAgents/com.apple.WindowManager.plist > /dev/null 2>&1 &
+# for this to work you must configure sudo such that
+# it will be able to run the command without password
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+# .. more yabai startup stuff
+
+yabai -m space 1 --label main
+yabai -m space 2 --label dev
+yabai -m space 3 --label graphic
+yabai -m space 4 --label comms
+yabai -m space 5 --label dev-browser
+yabai -m space 6 --label files
+yabai -m space 7 --label mail
+yabai -m space 8 --label medias
+
+yabai -m rule --add app="kitty" space="dev"
+
+yabai -m rule --add app="Telegram" space="comms"
+yabai -m rule --add app="Discord" space="comms"
+yabai -m rule --add app="Slack" space="comms"
+
+yabai -m rule --add app="Blender" space="graphic"
+yabai -m rule --add app="Photoshop" space="graphic"
+yabai -m rule --add app="Illustrator" space="graphic"
+
+yabai -m rule --add app="Finder" space="files"
+yabai -m rule --add app="App Cleaner" space="files"
+
+yabai -m rule --add app="Mail" space="mail"
+
+yabai -m rule --add app="Spotify" space="medias"
+
+yabai -m rule --add app="^Digital Colou?r Meter$" sticky=on
+
+yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|IINA|System Preferences|System Settings|zoom.us|Photo Booth|Archive Utility|Python|LibreOffice|App Store|Steam|Activity Monitor)$" manage=off
+yabai -m rule --add label="Finder" app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
+yabai -m rule --add label="Safari" app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
+yabai -m rule --add label="App Store" app="^App Store$" manage=off
+yabai -m rule --add label="Software Update" title="Software Update" manage=off
+yabai -m rule --add label="About This Mac" app="System Information" title="About This Mac" manage=off
+yabai -m rule --add label="Dictionary" app="^Dictionary$" manage=off
+yabai -m rule --add app="^ImageOptim$" manage=off
+yabai -m rule --add app="^The Unarchiver$" manage=off
+yabai -m rule --add app="^Logitech G HUB$" manage=off
+yabai -m rule --add app="^zoom.us$" manage=off
+yabai -m rule --add app="^Disk Utility$" manage=off
+
+# yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
+yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
+
+
+# global settings
+yabai -m config                                 \
+    mouse_follows_focus          off            \
+    focus_follows_mouse          off            \
+    window_origin_display        default        \
+    window_placement             second_child   \
+    window_zoom_persist          on             \
+    window_topmost               off            \
+    window_shadow                on             \
+    window_animation_duration    0.1            \
+    window_animation_frame_rate  60             \
+    window_opacity_duration      0.0            \
+    active_window_opacity        1.0            \
+    normal_window_opacity        0.90           \
+    window_opacity               off            \
+    insert_feedback_color        0xffd75f5f     \
+    active_window_border_color   0xffff5c87     \
+    normal_window_border_color   0xff555555     \
+    auto_balance                 off            \
+    window_border_width          1              \
+    window_border_radius         12             \
+    window_border_blur           off            \
+    window_border_hidpi          off            \
+    window_border                on             \
+    split_ratio                  0.50           \
+    split_type                   auto           \
+    mouse_modifier               fn             \
+    mouse_action1                move           \
+    mouse_action2                resize         \
+    mouse_drop_action            swap
+
+# windows settings
+yabai -m config                                 \
+    layout                       bsp            \
+    top_padding                  39             \
+    bottom_padding               6              \
+    left_padding                 8              \
+    right_padding                8              \
+    window_gap                   6              \
+
+echo "yabai configuration loaded baby"
